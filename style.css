@@ -160,12 +160,23 @@ a{
 .list{
   border-right: .5px solid #d4d5d9;
   border-top: 1px solid #d4d5d9;
-  border-bottom: -.5px solid #d4d5d9;
+  border-bottom: .5px solid #d4d5d9;
+  float: left;
+  width: 50%;
+  list-style: none;
+}
+.list1{
+  border-right: .5px solid #d4d5d9;
+  /* border-top: 1px solid #d4d5d9; */
+  border-bottom: .5px solid #d4d5d9;
   float: left;
   width: 50%;
   list-style: none;
 }
 .main .list:nth-child(even){
+  border-right: none;
+}
+.main .list1:nth-child(odd){
   border-right: none;
 }
 .list-img{
@@ -314,6 +325,85 @@ a{
   border-top: 4px solid #eaeaec;
   border-bottom: 4px solid #eaeaec;
   background-image: linear-gradient(270deg, #ffe5b2, #fff);
-  min-height: 120px;
   width: 100%;
+  height: 133px;
+}
+.banner-1 img{
+  min-height: 125px;
+}
+.filter-1{
+  padding-right: 40px;
+  border-bottom: 1px solid #d4d5d9;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  display: block;
+  background-color: #e1eaff;
+  font-size: 14px;
+  color: #424554;
+  min-height: 124px;
+  white-space: nowrap;
+  position: relative;
+}
+.title{
+  vertical-align: top;
+  display: inline-block;
+  margin-right: 27.5px;
+}
+.filter-by{
+  padding: 30px 0px 0px 16px;
+  font-size: 18px;
+}
+.gender{
+  padding: 0 0px 30px 16px ;
+  font-size: 21.5px;
+  font-weight: 700;
+  line-height: 1.33;
+}
+.values{
+  display: inline-block;
+}
+.bg{
+  margin-right: 5px;
+  display: inline-block;
+  padding: 10px 20px;
+  font-weight: 700;
+  text-align: center;
+  min-width: 4%;
+  border-radius: 4px;
+  background-color: #fff;
+  margin-top: 16px;
+  color: #424554;
+}
+.women{
+  min-width: 4%;
+  margin-right: 5px;
+  display: inline-block;
+  margin-top: 11px;
+  vertical-align: bottom;
+  margin-bottom: 16px;
+  padding: 10px 20px;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 4px;
+  background-color: #ffff;
+  letter-spacing: 0.1px;
+  color: #424554;
+}
+.other{
+  margin-left: 10px;
+  position: relative;
+  padding-bottom: 25px;
+  vertical-align: bottom;
+  display: inline-block;
+  font-size: 14px;
+}
+.arrow{
+  top: 80px;
+  position: absolute;
+  font-size: 14px;
+}
+.arrow img{
+  transform: rotate(90deg);
+  width: 16px;
+  height: 16px;
 }
