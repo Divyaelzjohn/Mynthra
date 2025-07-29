@@ -158,7 +158,7 @@ a{
   overflow: hidden;
 }
 .list{
-  border-right: .5px solid #d4d5d9;
+ 
   border-top: 1px solid #d4d5d9;
   border-bottom: .5px solid #d4d5d9;
   float: left;
@@ -173,11 +173,8 @@ a{
   width: 50%;
   list-style: none;
 }
-.main .list:nth-child(even){
-  border-right: none;
-}
-.main .list1:nth-child(odd){
-  border-right: none;
+.main .list:nth-child(odd){
+  border-right: .5px solid #d4d5d9;
 }
 .list-img{
   position: relative;
