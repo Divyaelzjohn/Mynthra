@@ -44,6 +44,10 @@ body{
   list-style: none;
 
 }
+.filter-pane .active-filter{
+  background-color: white;
+  font-weight: bold;
+}
 .selectedFilter{
   font-size: 14px;
   border-bottom: 1px solid #eaeaec;
@@ -80,7 +84,7 @@ body{
   display: inline-block;
 }
 .right-box input{
-  margin: 0 15px 0 0;
+  margin: 0 12.5px 0 0;
 }
 .checkbox-indicator{
   box-sizing: border-box;
@@ -97,8 +101,8 @@ body{
   position: absolute;
   top: 4px;
   left: 4px;
-  width: 8px;
-  height: 5px;
+  width: 7px;
+  height: 4px;
   border-color: #bfc0c6;
   border-style: none none solid solid;
   border-width: 1px;
@@ -157,3 +161,101 @@ body{
   top: 15px;
   z-index: 1;
 }
+.search-box{
+  position: relative;
+  overflow: hidden;
+  border-left: 8px;
+  background-color: #f4f4f5;
+  border-radius: 2px;
+  border: 1px solid #d4d5d9;
+  margin-left: 16px;
+  margin-top: 10px;
+}
+.search-box2{
+  padding-left: 8px;
+
+  width: 100%;
+}
+.search-box2 img{
+  position: absolute;
+  top: 12px;
+  left: 11px;
+  overflow: hidden;
+}
+.filter-search{
+  padding: 11px 0 11px 26px;
+  color: #3e4152;
+  border-width: 0;
+  background-color: #f4f4f5;
+  font-size: 12px;
+  width: 90%;
+  font-family: Assistant;
+}
+.color-box {
+  display: inline-block;
+  width: 30px;
+  height: 20px;
+  margin: -5px 8px -5px 0;
+}
+.price-outer{
+  height: 100vh;
+  padding: 0 0 150px;
+  overflow: scroll;
+  margin-left: 12px;
+}
+.price-info{
+  margin: 16px;
+}
+.price-range{
+  color: #282c3f;
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+.price-amound{
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom:4px;
+  color:#282c3f;
+}
+.product-count{
+  font-size: 12px;
+  color: #7e818c;
+  margin-bottom: 4px;
+}
+.slider-bar{
+margin-top: 20px;
+position: relative;
+position: relative;
+width: fit-content;
+padding-bottom: 12px; 
+}
+.slider-fill {
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  margin-left: 14px;
+  margin-right: 10px;
+}
+
+.histogram {
+  width: 43.33px;
+  background-color: #f6f6f6;
+  display: inline-block;
+}
+
+.baseline {
+ top: 15px;
+ width: 182px;
+ margin: 8px;
+ position: relative;
+}
+.baseline2{
+  z-index: 2;
+  right: 4px;
+  left: 0px;
+  top: -27px;
+  position: absolute;
+  height: 4px;
+  border-radius: 4px;
+  background-color: #ff3f6c;
+ }
