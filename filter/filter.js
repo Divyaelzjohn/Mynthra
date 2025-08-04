@@ -56,7 +56,7 @@ const filterOptions={
     {name:"Green",count:23,color:"#5EB160"},
     {name:"Maroon",count:72,color:"#B03060"}
   ],
-  DiscountRange:[
+  "Discount Range":[
     {name:"10% and higher",count:237003},
     {name:"20% and higher",count:229638},
     {name:"30% and higher",count:229638},
@@ -71,7 +71,7 @@ const filterOptions={
     {name:"Bundles",count:24},
     {name:"Single styles",count:271244}
   ],
-  CountryOfOrigin:[
+ "Country of Origin":[
     {name:"All countries",count:273654},
     {name:"Bangladesh",count:16},
     {name:"China",count:23},
@@ -85,7 +85,7 @@ const filterItems=document.querySelectorAll(".filter-pane li");
 const rightBox=document.querySelector(".right-box ");
 
 
-const filterWithSearch=["Size","Brand","Color","CountryOfOrigin"];
+const filterWithSearch=["Size","Brand","Color","Country Of Origin"];
 
 function renderFilterOptions(selectedFilter, options) {
   const showSearch = filterWithSearch.includes(selectedFilter);
@@ -124,6 +124,39 @@ function renderFilterOptions(selectedFilter, options) {
   `;
 }
 
+function setupCheckboxHandlers() {
+  const checkboxes = document.querySelectorAll(".filter-list input[type='checkbox']");
+  
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener("change", () => {
+      const selected = Array.from(checkboxes)
+        .filter(cb => cb.checked)
+        .map(cb => cb.closest("label").textContent.trim());
+
+      console.log("Selected filters:", selected);
+    });
+  });
+}
+
+function setupSearchHandler() {
+  const searchInput = document.querySelector(".filter-search");
+  const filterList = document.querySelectorAll(".filter-list li");
+
+  if (searchInput) {
+    searchInput.addEventListener("input", () => {
+      const query = searchInput.value.toLowerCase();
+      filterList.forEach(li => {
+        const label = li.textContent.toLowerCase();
+        li.style.display = label.includes(query) ? "" : "none";
+      });
+    });
+  }
+}
+
+
+// buttons
+
+
 function renderPriceFilter(){
   return`
     <div class="price-outer">
@@ -131,7 +164,8 @@ function renderPriceFilter(){
         <p class="price-range">Selected price range</p>
         <h3 class="price-amound">₹0 - ₹48,000+ </h3>
         <p class="product-count">270289 products found</p>
-       <div class="slider-bar">
+        
+        <div class="slider-bar">
           <div class="slider-fill">
             <div class="histogram" style="height: 60px;"></div>
             <div class="histogram" style="height: 33.6px;"></div>
@@ -139,17 +173,17 @@ function renderPriceFilter(){
           </div>
         </div>
 
-        
         <div class="baseline">
           <div class="baseline1"></div>
           <div class="baseline2"></div>
-          <div style="position: absolute; left: 0px; background-color: white; border: 1px solid rgb(255, 63, 108); box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px 0px; border-radius: 100%; z-index: 3; top: -38px; width: 22px; height: 22px;"></div>
-          <div style="position: absolute; left: 152px; background-color: white; border: 1px solid rgb(255, 63, 108); box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px 0px; border-radius: 100%; z-index: 3; width: 30px; height: 30px;"></div>
+          <div class="round1"></div>
+          <div  class="round2"></div>
         </div>
       </div>
     </div>
   `
 }
+
 
 
   filterItems.forEach((item)=>{
@@ -161,13 +195,26 @@ function renderPriceFilter(){
       item.classList.add("active-filter");
 
       // rightBox.innerHTML=" "
+      if(selectedFilter==="More Filters"){
+        rightBox.innerHTML=`
+          <div class="refine-search">
+            <h4>Refine your search</h4>
+            <p>Select any one category to view more filter(s).</p>
+            <button class="categoryButton">SELECT CATEGORY</button>
+          </div>
+        `;
+        return;
+      }
       if(options){
         rightBox.innerHTML=renderFilterOptions(selectedFilter,options);
+        setupCheckboxHandlers();
+        setupSearchHandler();
       }else{
         rightBox.innerHTML=`<p>No options available.</p>`
       }
     });
   });
+  
   const defaultFilter="Gender";
   const defaultOptions=filterOptions[defaultFilter];
   filterItems.forEach((el)=>{
@@ -182,3 +229,4 @@ function renderPriceFilter(){
     rightBox.innerHTML=`<p>No options available.</p>`
   }
 
+  
