@@ -110,15 +110,15 @@ function renderFilterOptions(selectedFilter, options) {
           : "";
 
         return `
-          <li>
-            <label class="customCheckbox">
-              <input type="checkbox">
-              <div class="checkbox-indicator"></div>
-              ${colorBox}${opt.name}
-              <span class="number">${opt.count}</span>
-            </label>
-          </li>
-        `;
+              <li>
+                <label class="customCheckbox">
+                  <input type="checkbox">
+                  <div class="checkbox-indicator"></div>
+                  ${colorBox}<span class="label-text">${opt.name}</span>
+                  <span class="number">${opt.count}</span>
+                </label>
+              </li>
+            `;
       }).join("")}
     </ul>
   `;
@@ -153,37 +153,27 @@ function setupSearchHandler() {
   }
 }
 
-
-// buttons
-
-
 function renderPriceFilter(){
   return`
-    <div class="price-outer">
-      <div class="price-info">
-        <p class="price-range">Selected price range</p>
-        <h3 class="price-amound">₹0 - ₹48,000+ </h3>
-        <p class="product-count">270289 products found</p>
-        
+      <div class="price-outer">
+        <div class="price-info">
+          <div class="price-range">Selected price range</div>
+          <div class="price-amount"><span id="min-price">₹0</span> - <span id="max-price">₹48,000</span></div>
+        <div class="product-count">269005 products found</div>
+      </div>
         <div class="slider-bar">
           <div class="slider-fill">
             <div class="histogram" style="height: 60px;"></div>
             <div class="histogram" style="height: 33.6px;"></div>
             <div class="histogram" style="height: 26.4px;"></div>
-          </div>
         </div>
-
-        <div class="baseline">
-          <div class="baseline1"></div>
-          <div class="baseline2"></div>
-          <div class="round1"></div>
-          <div  class="round2"></div>
+        </div>
+        <div class="slider-container">
+          <input type="range" id="maxRange" min="0" max="48000" step="100" value="48000">
         </div>
       </div>
-    </div>
   `
 }
-
 
 
   filterItems.forEach((item)=>{
@@ -229,4 +219,16 @@ function renderPriceFilter(){
     rightBox.innerHTML=`<p>No options available.</p>`
   }
 
-  
+  const maxRange = document.getElementById('maxRange');
+const maxPrice = document.getElementById('max-price');
+
+function updateSlider() {
+  const val = parseInt(maxRange.value);
+  maxPrice.textContent = `₹${val.toLocaleString()}`;
+  maxRange.style.setProperty('--value', `${(val / maxRange.max) * 100}%`);
+}
+
+maxRange.addEventListener('input', updateSlider);
+updateSlider();
+
+
