@@ -5,9 +5,8 @@ const filterOptions={
     {name:"Women",count:206441}
   ],
   Categories:[
-    {name:"T-Shirts",count:5000},
-    {name:"Jeans", count:3000},
-    {name:"Dresses",count:2000}
+    {name:"Dresses",count:5000},
+    {name:"Ethnic dresses", count:3000}
   ],
   Size:[
     {name:"3xs",count:166},
@@ -110,15 +109,15 @@ function renderFilterOptions(selectedFilter, options) {
           : "";
 
         return `
-              <li>
-                <label class="customCheckbox">
-                  <input type="checkbox">
-                  <div class="checkbox-indicator"></div>
-                  ${colorBox}<span class="label-text">${opt.name}</span>
-                  <span class="number">${opt.count}</span>
-                </label>
-              </li>
-            `;
+            <li>
+              <label class="customCheckbox">
+                <input type="checkbox">
+                <div class="checkbox-indicator"></div>
+                ${colorBox}<span class="label-text">${opt.name}</span>
+                <span class="number">${opt.count}</span>
+              </label>
+            </li>
+          `;
       }).join("")}
     </ul>
   `;
@@ -155,23 +154,24 @@ function setupSearchHandler() {
 
 function renderPriceFilter(){
   return`
-      <div class="price-outer">
-        <div class="price-info">
-          <div class="price-range">Selected price range</div>
-          <div class="price-amount"><span id="min-price">₹0</span> - <span id="max-price">₹48,000</span></div>
+        <div class="price-outer">
+      <div class="price-info">
+        <div class="price-range">Selected price range</div>
+        <div class="price-amount"><span id="min-price">₹0</span> - <span id="max-price">₹48,000+</span></div>
         <div class="product-count">269005 products found</div>
       </div>
-        <div class="slider-bar">
-          <div class="slider-fill">
-            <div class="histogram" style="height: 60px;"></div>
-            <div class="histogram" style="height: 33.6px;"></div>
-            <div class="histogram" style="height: 26.4px;"></div>
-        </div>
-        </div>
-        <div class="slider-container">
-          <input type="range" id="maxRange" min="0" max="48000" step="100" value="48000">
+      <div class="slider-bar">
+        <div class="slider-fill">
+          <div class="histogram" style="height: 60px;"></div>
+          <div class="histogram" style="height: 33.6px;"></div>
+          <div class="histogram" style="height: 26.4px;"></div>
         </div>
       </div>
+      <div class="slider-container">
+        <input type="range" id="minRange" min="0" max="48000" step="100" value="0">
+        <input type="range" id="maxRange" min="0" max="48000" step="100" value="48000">
+      </div>
+    </div>
   `
 }
 
@@ -193,42 +193,86 @@ function renderPriceFilter(){
             <button class="categoryButton">SELECT CATEGORY</button>
           </div>
         `;
+        setTimeout(() => {
+          const selectBtn = document.querySelector(".categoryButton");
+          selectBtn?.addEventListener("click", () => {
+            const categoriesItem = Array.from(filterItems).find(
+              (li) => li.textContent.trim() === "Categories"
+            );
+            categoriesItem?.click(); // simulate click on Categories
+          });
+        }, 0);
+      
         return;
       }
       if(options){
         rightBox.innerHTML=renderFilterOptions(selectedFilter,options);
         setupCheckboxHandlers();
         setupSearchHandler();
+        if(selectedFilter === "Price"){
+          setupDualSlider(); // Add this
+        }
       }else{
         rightBox.innerHTML=`<p>No options available.</p>`
       }
     });
   });
+   
   
-  const defaultFilter="Gender";
-  const defaultOptions=filterOptions[defaultFilter];
-  filterItems.forEach((el)=>{
-    el.classList.remove("active-filter");
-    if(el.textContent.trim()===defaultFilter){
-      el.classList.add("active-filter");
+  
+  function setupDualSlider() {
+    const minRange = document.getElementById('minRange');
+    const maxRange = document.getElementById('maxRange');
+    const minPrice = document.getElementById('min-price');
+    const maxPrice = document.getElementById('max-price');
+    const minGap = 1000;
+  
+    function snap(value) {
+      return Math.round(value / 1000) * 1000;
     }
-  });
-  if(defaultOptions){
-   rightBox.innerHTML=renderFilterOptions(defaultFilter,defaultOptions);
-  }else{
-    rightBox.innerHTML=`<p>No options available.</p>`
+  
+    function updateTrackFill(e) {
+      let minVal = snap(parseInt(minRange.value));
+      let maxVal = snap(parseInt(maxRange.value));
+  
+      if (maxVal - minVal < minGap) {
+        if (e.target === minRange) {
+          minVal = maxVal - minGap;
+        } else {
+          maxVal = minVal + minGap;
+        }
+      }
+  
+      minVal = Math.max(0, minVal);
+      maxVal = Math.min(100000, maxVal);
+  
+      minRange.value = minVal;
+      maxRange.value = maxVal;
+  
+      minPrice.textContent = `₹${minVal.toLocaleString()}`;
+      maxPrice.textContent = `₹${maxVal.toLocaleString()}`;
+  
+      const range = maxRange.max - minRange.min;
+      const minPercent = ((minVal - minRange.min) / range) * 100;
+      const maxPercent = ((maxVal - minRange.min) / range) * 100;
+  
+      const gradient = `linear-gradient(to right, 
+        #eee 0%, 
+        #eee ${minPercent}%, 
+        #ff3f6c ${minPercent}%, 
+        #ff3f6c ${maxPercent}%, 
+        #eee ${maxPercent}%, 
+        #eee 100%)`;
+  
+      minRange.style.background = gradient;
+      maxRange.style.background = gradient;
+    }
+  
+    minRange.addEventListener('input', updateTrackFill);
+    maxRange.addEventListener('input', updateTrackFill);
+  
+    updateTrackFill({ target: maxRange });
   }
-
-  const maxRange = document.getElementById('maxRange');
-const maxPrice = document.getElementById('max-price');
-
-function updateSlider() {
-  const val = parseInt(maxRange.value);
-  maxPrice.textContent = `₹${val.toLocaleString()}`;
-  maxRange.style.setProperty('--value', `${(val / maxRange.max) * 100}%`);
-}
-
-maxRange.addEventListener('input', updateSlider);
-updateSlider();
-
-
+  
+  
+  filterItems[0].click();
